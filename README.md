@@ -11,20 +11,13 @@ A 55MB minimal Linux distro that boots directly into a text editor.
 
 ## Build
 
-1. Clone Buildroot:
-   git clone https://github.com/buildroot/buildroot
-   cd buildroot
+install dependencies
 
-2. Apply config:
-   cp ../configs/buildroot_defconfig configs/writer_defconfig
-   make writer_defconfig
+```sh
+sudo apt install build-essential libncurses-dev rsync dc cpio unzip wget file
+```
 
-3. Build:
-   make -j8
-
-4. Boot:
-   qemu-system-x86_64 -kernel output/images/bzImage \
-     -drive file=output/images/rootfs.ext4,format=raw
+./scripts/build.sh
 
 ## Stats
 - Build time: ~2 hours
