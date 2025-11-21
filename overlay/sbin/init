@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Mount essentials
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+# mount -t devtmpfs devtmpfs /dev
+
+# Wait for /dev/vdb to appear (up to 5 seconds)
+# for i in 1 2 3 4 5; do
+#   [ -b /dev/vdb ] && break
+#   echo "Waiting for /dev/vdb to appear..."
+#   sleep 1
+# done
+
+
+# Mount data partition
+# mkdir -p /data
+mount /dev/vdb /data
+
+# Set environment
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export HOME=/data
+export TERM=linux
+
+# Launch nano
+/usr/bin/nano /data/draft.txt
+
+# Cleanup
+sync
+umount /data
+poweroff -f
