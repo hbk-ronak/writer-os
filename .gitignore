@@ -1,0 +1,6 @@
+# Build directory
+scripts/tmp/
+
+# Build output
+disk.img
+
