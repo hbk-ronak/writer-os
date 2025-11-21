@@ -17,7 +17,9 @@ install dependencies
 sudo apt install build-essential libncurses-dev rsync dc cpio unzip wget file
 ```
 
+```sh
 ./scripts/build.sh
+```
 
 ## Stats
 - Build time: ~2 hours
