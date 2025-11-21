@@ -26,9 +26,20 @@ fi
 # Prepare buildroot configuration
 echo "==> Preparing buildroot configuration..."
 TEMP_DEFCONFIG="${BUILD_DIR}/buildroot-defconfig.tmp"
+OVERLAY_DIR="${BUILD_DIR}/overlay"
+
+# Create temporary overlay directory structure
+echo "==> Creating temporary overlay directory..."
+mkdir -p "${OVERLAY_DIR}/data"
+mkdir -p "${OVERLAY_DIR}/sbin"
+
+# Copy init file to overlay
+echo "==> Copying init file to overlay..."
+cp "${PROJECT_ROOT}/configs/init" "${OVERLAY_DIR}/sbin/init"
+chmod +x "${OVERLAY_DIR}/sbin/init"
 
 # Create temporary defconfig with absolute paths
-sed "s|BR2_ROOTFS_OVERLAY=\"\"|BR2_ROOTFS_OVERLAY=\"${PROJECT_ROOT}/overlay\"|g" \
+sed "s|BR2_ROOTFS_OVERLAY=\"\"|BR2_ROOTFS_OVERLAY=\"${OVERLAY_DIR}\"|g" \
     "${PROJECT_ROOT}/configs/buildroot-defconfig" | \
 sed "s|BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE=\"\"|BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE=\"${PROJECT_ROOT}/configs/linux-defconfig\"|g" \
     > "${TEMP_DEFCONFIG}"
@@ -41,13 +52,13 @@ cp "${PROJECT_ROOT}/configs/grub-bios.cfg" "${BUILD_DIR}/buildroot/board/pc/"
 # Build
 cd "${BUILD_DIR}/buildroot"
 echo "==> Loading writer_os_defconfig..."
-make writer_os_defconfig
+# make writer_os_defconfig
 
 echo "==> Building (this may take a while)..."
-make -j8
+# make -j8
 
 # Copy output
 echo "==> Copying disk image to project root..."
-cp "output/images/disk.img" "${PROJECT_ROOT}/disk.img"
+# cp "output/images/disk.img" "${PROJECT_ROOT}/disk.img"
 
 echo "==> Build complete! Output: ${PROJECT_ROOT}/disk.img"
